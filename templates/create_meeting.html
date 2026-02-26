@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Meeting</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/">MeetingBot</a>
+    <div>
+      <a class="btn btn-outline-light btn-sm" href="/">Create</a>
+      <a class="btn btn-outline-light btn-sm" href="/history">History</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="card shadow p-4">
+        <h2 class="mb-4 text-center">Create Meeting</h2>
+
+        <form method="POST" action="/create" enctype="multipart/form-data">
+
+            {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+            {% endif %}
+
+            <div class="mb-3">
+                <label class="form-label">Meeting Title</label>
+                <input type="text" class="form-control" name="title" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Meeting Type</label>
+                <select class="form-select" name="type">
+                    <option>Team Meeting</option>
+                    <option>Interview</option>
+                    <option>Client Call</option>
+                    <option>Standup</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Paste Transcript</label>
+                <textarea class="form-control" name="transcript" rows="6" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Upload Meeting File</label>
+                <input type="file" class="form-control" name="meeting_file" accept=".mp3,.wav,.mp4">
+            </div>
+
+            
+            <button type="submit" class="btn btn-primary w-100" onclick="showLoader()">
+  Generate Summary
+</button>
+            <div id="loader" style="display:none; margin-top:10px;">
+    <p>Generating summary... Please wait.</p>
+    <div id="loader" class="text-center mt-3" style="display:none;">
+  <div class="spinner-border text-primary" role="status"></div>
+  <p class="mt-2">Generating summary, please wait...</p>
+</div>
+</div>
+
+<script>
+document.querySelector("form").addEventListener("submit", function() {
+    document.getElementById("loader").style.display = "block";
+});
+</script>
+        </form>
+    </div>
+</div>
+<script>
+function showLoader() {
+    document.getElementById("loader").style.display = "block";
+}
+</script>
+
+</body>
+</html>
